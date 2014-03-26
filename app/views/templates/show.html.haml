@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @template.name
+%p
+  %b Desc:
+  = @template.desc
+%p
+  %b Image:
+  = @template.image
+%p
+  %b Text:
+  = @template.text
+
+= link_to 'Edit', edit_template_path(@template)
+\|
+= link_to 'Back', templates_path
