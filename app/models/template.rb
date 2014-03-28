@@ -1,16 +1,20 @@
 class Template < ActiveRecord::Base
   mount_uploader :image, ImageUploader
-  def to_fileupload(attachment_name, attachment_style)
-    {
-      files: [
-        {
-          id:   read_attribute(:id),
-          name: read_attribute("#{attachment_name}_file_name"),
-          type: read_attribute("#{attachment_name}_content_type"),
-          size: read_attribute("#{attachment_name}_file_size"),
-          url:  send(attachment_name).url(attachment_style)
-        }
-      ]
-    }
+  has_one :name
+  has_one :desc
+  has_one :body
+
+  accepts_nested_attributes_for :name, :desc, :body
+
+  def name_text
+    name.text
+  end
+
+  def desc_text
+    desc.text
+  end
+
+  def body_text
+    body.text
   end
 end

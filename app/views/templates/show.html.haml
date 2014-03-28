@@ -1,18 +1,91 @@
-%p#notice= notice
+%article
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h1#template-name.highlightable{ :id => "name:#{@template.name.id}:name" }= @template.name_text
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h3#template-desc.highlightable{ :id => "desc:#{@template.desc.id}:desc" }= @template.desc_text
+  .row.col-sm-6.col-sm-offset-3.text-center
+    = image_tag @template.image_url if !@template.image.blank?
+    = file_field :template, 'image'
+  .row.col-sm-8.col-sm-offset-2.text-center
+    %section.highlightable.template-text{ :id => "body:#{@template.body.id}:text" }= @template.body_text
 
-%p
-  %b Name:
-  = @template.name
-%p
-  %b Desc:
-  = @template.desc
-%p
-  %b Image:
-  = @template.image
-%p
-  %b Text:
-  = @template.text
+  .row.col-sm-10.col-sm-offset-1.text-right.template-actions
+    = link_to 'Edit', edit_template_path(@template), class: 'btn btn-primary'
+    = link_to 'Back', templates_path, class: 'btn btn-warning'
+:javascript
+  var orly1;
+  var orly2;
+  String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+  };
 
-= link_to 'Edit', edit_template_path(@template)
-\|
-= link_to 'Back', templates_path
+  $('.highlightable').click(function(){
+    var highlighted = getSelectionHtml();
+    var length = highlighted.length
+    var source = $(this);
+    var content = $(this).html();
+    if ( length > 0 && length <= content.length ) {
+      info = $(this).prop('id').split(':');
+      type = info[0];
+      id = info[1];
+      attr = info[2];
+      start = $(this).html().indexOf(highlighted);
+      end = start + length;
+      console.log('type: ' + type );
+      console.log('id: ' + id );
+      console.log('attr: ' + attr );
+      console.log('start: ' + start );
+      console.log('end: ' + end );
+      console.log('length: ' + length );
+      console.log('text: ' + highlighted );
+
+      $.ajax({
+        type: "POST",
+        url: "/highlights.json",
+        dataType: "json",
+        data: {
+          highlight: {
+            highlightable_id: id,
+            highlightable_type: type,
+            highlightable_attr: attr,
+            start: start,
+            end: end,
+            length: length,
+            text: highlighted
+          }
+        },
+        error: function(data) {
+          console.log('error');
+          return console.log(data);
+        },
+        success: function(data) {
+          console.log('success');
+          console.log(data);
+          console.log( content );
+          orly1 = data;
+          orly2 = content;
+          content = content.splice( (data.start + data.length), 0, '</span>' );
+          content = content.splice( data.start, 0, '<span class="highlighted">' );
+          source.html( content );
+        }
+      });
+    }
+  });
+  function getSelectionHtml() {
+    var html = "";
+    if (typeof window.getSelection != "undefined") {
+      var sel = window.getSelection();
+      if (sel.rangeCount) {
+        var container = document.createElement("div");
+        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+            container.appendChild(sel.getRangeAt(i).cloneContents());
+        }
+        html = container.innerHTML;
+      }
+    } else if (typeof document.selection != "undefined") {
+      if (document.selection.type == "Text") {
+        html = document.selection.createRange().htmlText;
+      }
+    }
+    return html;
+  }

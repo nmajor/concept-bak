@@ -15,9 +15,9 @@ class TemplatesController < ApplicationController
   # GET /templates/new
   def new
     @template = Template.new
-    @template.name = "Concept Template"
-    @template.desc = "<8 Word Clear, Catchy, Description of Product"
-    @template.text = "Describe the product, focusing on the benefits and ultimate outcomes that the product provides. Selling an ab workout? Sell the 6 pack. Self-help seminar? Sell the success story they will become. You have 1-2 short paragraphs and around ~125 words (~6 lines) before you lose attention. Minimize the setup, you don’t setup, and use declarative words that don’t need qualifiers or superlatives. Don’t repeat yourself, and try doing a few different concepts, with original perspectives and evidence."
+    @template.name = Name.create( :text => "Concept Template" )
+    @template.desc = Desc.create( :text => "<8 Word Clear, Catchy, Description of Product" )
+    @template.body = Body.create( :text => "Describe the product, focusing on the benefits and ultimate outcomes that the product provides. Selling an ab workout? Sell the 6 pack. Self-help seminar? Sell the success story they will become. You have 1-2 short paragraphs and around ~125 words (~6 lines) before you lose attention. Minimize the setup, you don’t setup, and use declarative words that don’t need qualifiers or superlatives. Don’t repeat yourself, and try doing a few different concepts, with original perspectives and evidence." )
     @template.save
     redirect_to edit_template_path(@template)
   end
@@ -58,6 +58,6 @@ class TemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def template_params
-      params.require(:template).permit(:name, :desc, :image, :text)
+      params.require(:template).permit( :image, :name_attributes => [:text], :desc_attributes => [:text], :body_attributes => [:text] )
     end
 end

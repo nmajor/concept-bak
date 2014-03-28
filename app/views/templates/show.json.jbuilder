@@ -1,1 +1,1 @@
-json.extract! @template, :id, :name, :desc, :image, :image_url, :text, :created_at, :updated_at
+json.extract! @template, :id, :name_text, :desc_text, :image, :image_url, :body_text, :created_at, :updated_at

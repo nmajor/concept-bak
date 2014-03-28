@@ -3,7 +3,7 @@
 %table
   - @templates.each do |template|
     %tr
-      %td= template.name
+      %td= link_to template.name_text, template_path(template)
       %td= link_to 'Edit', edit_template_path(template)
 
 = link_to 'New', new_template_path, class: 'btn btn-success'

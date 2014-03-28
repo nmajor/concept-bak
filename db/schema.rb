@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326025143) do
+ActiveRecord::Schema.define(version: 20140328044606) do
+
+  create_table "bodies", force: true do |t|
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "template_id"
+  end
+
+  create_table "descs", force: true do |t|
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "template_id"
+  end
+
+  create_table "highlights", force: true do |t|
+    t.integer  "highlightable_id"
+    t.string   "highlightable_type"
+    t.string   "highlightable_attr"
+    t.integer  "start"
+    t.integer  "end"
+    t.integer  "length"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "text"
+  end
+
+  create_table "names", force: true do |t|
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "template_id"
+  end
 
   create_table "reasons", force: true do |t|
     t.string   "text"
@@ -20,10 +53,7 @@ ActiveRecord::Schema.define(version: 20140326025143) do
   end
 
   create_table "templates", force: true do |t|
-    t.string   "name"
-    t.string   "desc"
     t.string   "image"
-    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -10,12 +10,15 @@
 = hidden_field_tag 'template_path', template_path(@template) + '.json'
 = hidden_field_tag 'template_method', @template.id.blank? ? 'POST' : "PUT"
 %article
-  %h1.row.col-sm-10.col-sm-offset-1.text-center.template-name{ contenteditable: true }= @template.name
-  %h3.row.col-sm-10.col-sm-offset-1.text-center.template-desc{ contenteditable: true }= @template.desc
-  %section.row.col-sm-6.col-sm-offset-3.text-center
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h1.template-name{ contenteditable: true }= @template.name_text
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h3.template-desc{ contenteditable: true }= @template.desc_text
+  .row.col-sm-6.col-sm-offset-3.text-center
     = image_tag @template.image.blank? ? "upload.svg" : @template.image_url, class: "template-image"
     = file_field :template, 'image'
-  %section.row.col-sm-8.col-sm-offset-2.text-center.template-text{ contenteditable: true }= @template.text
+  .row.col-sm-8.col-sm-offset-2.text-center
+    %section.template-text{ contenteditable: true }= @template.body_text
 
   .row.col-sm-10.col-sm-offset-1.text-right.template-actions
     %span.template-message

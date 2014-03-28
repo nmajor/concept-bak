@@ -20,6 +20,10 @@ root.template_update_image = ->
       console.log data
       console.log data.result.image_url
       $(".template-image").prop("src", data.result.image_url).prop "alt", data.result.image
+      $('.template-message').addClass('template-success').html('Image Saved').show()
+      setTimeout ( ->
+        $('.template-message').hide()
+      ),3000
       return
   return
 
@@ -28,9 +32,12 @@ root.template_update = ->
     $.ajax
       data:
         template:
-          name: $('.template-name').html()
-          desc: $('.template-desc').html()
-          text: $('.template-text').html()
+          name_attributes:
+            text: $('.template-name').html()
+          desc_attributes:
+            text: $('.template-desc').html()
+          body_attributes:
+            text: $('.template-text').html()
       type: $('#template_method').val()
       url: $('#template_path').val()
       error: (data) ->
