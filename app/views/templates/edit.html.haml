@@ -1,7 +1,28 @@
-%h1 Editing template
+= form_for @template do |f|
+  - if @template.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@template.errors.count, "error")} prohibited this template from being saved:"
+      %ul
+        - @template.errors.full_messages.each do |msg|
+          %li= msg
 
-= render 'form'
+= hidden_field_tag 'template_id', @template.id
+= hidden_field_tag 'template_path', template_path(@template) + '.json'
+= hidden_field_tag 'template_method', @template.id.blank? ? 'POST' : "PUT"
+%article
+  %h1.row.col-sm-10.col-sm-offset-1.text-center.template-name{ contenteditable: true }= @template.name
+  %h3.row.col-sm-10.col-sm-offset-1.text-center.template-desc{ contenteditable: true }= @template.desc
+  %section.row.col-sm-6.col-sm-offset-3.text-center
+    = image_tag @template.image.blank? ? "upload.svg" : @template.image_url, class: "template-image"
+    = file_field :template, 'image'
+  %section.row.col-sm-8.col-sm-offset-2.text-center.template-text{ contenteditable: true }= @template.text
 
-= link_to 'Show', @template
-\|
-= link_to 'Back', templates_path
+  .row.col-sm-10.col-sm-offset-1.text-right.template-actions
+    %span.template-message
+    %span.template-save.btn.btn-success Save
+    = link_to 'Show', @template, class: 'btn btn-default'
+    = link_to 'Back', templates_path, class: 'btn btn-warning'
+    = link_to 'Destroy', @template, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
+:javascript
+  template_update_image();
+  template_update();

@@ -15,26 +15,15 @@ class TemplatesController < ApplicationController
   # GET /templates/new
   def new
     @template = Template.new
+    @template.name = "Concept Template"
+    @template.desc = "<8 Word Clear, Catchy, Description of Product"
+    @template.text = "Describe the product, focusing on the benefits and ultimate outcomes that the product provides. Selling an ab workout? Sell the 6 pack. Self-help seminar? Sell the success story they will become. You have 1-2 short paragraphs and around ~125 words (~6 lines) before you lose attention. Minimize the setup, you don’t setup, and use declarative words that don’t need qualifiers or superlatives. Don’t repeat yourself, and try doing a few different concepts, with original perspectives and evidence."
+    @template.save
+    redirect_to edit_template_path(@template)
   end
 
   # GET /templates/1/edit
   def edit
-  end
-
-  # POST /templates
-  # POST /templates.json
-  def create
-    @template = Template.new(template_params)
-
-    respond_to do |format|
-      if @template.save
-        format.html { redirect_to @template, notice: 'Template was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @template }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /templates/1
@@ -43,7 +32,7 @@ class TemplatesController < ApplicationController
     respond_to do |format|
       if @template.update(template_params)
         format.html { redirect_to @template, notice: 'Template was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: 'show', status: :created, location: @template }
       else
         format.html { render action: 'edit' }
         format.json { render json: @template.errors, status: :unprocessable_entity }

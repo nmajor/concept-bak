@@ -14,8 +14,12 @@ gem 'devise'
 gem 'haml-rails'
 gem 'rolify'
 gem 'sendgrid'
+gem "jquery-fileupload-rails"
+gem 'carrierwave'
+gem 'rmagick', :require => 'RMagick'
 group :development do
   gem 'better_errors'
+  gem 'meta_request'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
   gem 'guard-bundler'
   gem 'guard-rails'

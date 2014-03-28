@@ -1,3 +1,16 @@
 // Place all the styles related to the templates controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.template-name { line-height: 50px; min-height: 50px}
+.template-desc { line-height: 30px; min-height: 30px; }
+.template-image {
+  &:hover {
+    background-image:url('upload.svg');;
+  }
+}
+#template_image { display: none; }
+.template-text { min-height: 20px }
+.template-actions { margin-top: 50px; }
+.template-message { display: none; }
+.template-success { color: #4cae4c; }
