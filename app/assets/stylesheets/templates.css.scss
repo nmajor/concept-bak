@@ -14,4 +14,39 @@
 .template-actions { margin-top: 50px; }
 .template-message { display: none; }
 .template-success { color: #4cae4c; }
-.highlighted { color: rgb(25, 162, 25); }
+.highlighted {
+  color: rgb(25, 162, 25);
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#highlight-options {
+  display: none;
+  position: absolute;
+  background: #303030;
+  color: #D1D1D1;
+  padding: 5px 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#highlight-options span:hover {
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+#highlight-options:after,
+#highlight-options::after {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -40%;
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: solid 9px #303030;
+    border-left: solid 6px transparent;
+    border-right: solid 6px transparent;
+}

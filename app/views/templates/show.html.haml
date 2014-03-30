@@ -12,32 +12,74 @@
   .row.col-sm-10.col-sm-offset-1.text-right.template-actions
     = link_to 'Edit', edit_template_path(@template), class: 'btn btn-primary'
     = link_to 'Back', templates_path, class: 'btn btn-warning'
+
+  #highlight-options
+    %span.like like
+    %span.dislike dislike
+    %span.question question
+
 :javascript
   var orly1;
   var orly2;
   String.prototype.splice = function( idx, rem, s ) {
     return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
   };
+  var regex = /(<([^>]+)>)/ig
 
   $('.highlightable').click(function(){
-    var highlighted = getSelectionHtml();
-    var length = highlighted.length
-    var source = $(this);
-    var content = $(this).html();
-    if ( length > 0 && length <= content.length ) {
-      info = $(this).prop('id').split(':');
+    submitSelected($(this));
+  });
+
+  function submitSelected(el) {
+    var selection = window.getSelection().getRangeAt(0);
+    console.log(selection);
+    console.log(selection.startOffset);
+    console.log(selection.endOffset);
+    var source = el;
+    var content = source.html();
+    var start = selection.startOffset;
+    var end = selection.endOffset;
+    var length = end - start;
+    var text = content.substring(start, end);
+    // var content = $(this).html().replace(regex, "");
+    if ( selection.endOffset > selection.startOffset && !regex.test(text) ) {
+      // showHighlightOptions();
+      markSelection();
+      $('#highlight-options').show();
+      return;
+      info = el.prop('id').split(':');
       type = info[0];
       id = info[1];
       attr = info[2];
-      start = $(this).html().indexOf(highlighted);
-      end = start + length;
+
+      var startspace = false;
+      var spaces = [0];
+      for(var i=0; i<content.length; i++) {
+        if (content[i] === " ") spaces.push(i);
+      }
+      spaces.push(content.length);
+
+      for(var i=0; i<spaces.length; i++) {
+        if (spaces[i] > start && startspace == false) {
+          start = spaces[i-1] != 0 ? spaces[i-1] + 1 : spaces[i-1];
+          startspace = true;
+        }
+        if (spaces[i] > end) {
+          end = spaces[i];
+          length = end - start;
+          text = content.substring(start, end);
+          break;
+        }
+      }
+
+      console.log(spaces);
       console.log('type: ' + type );
       console.log('id: ' + id );
       console.log('attr: ' + attr );
       console.log('start: ' + start );
       console.log('end: ' + end );
       console.log('length: ' + length );
-      console.log('text: ' + highlighted );
+      console.log('text: ' + text );
 
       $.ajax({
         type: "POST",
@@ -51,7 +93,7 @@
             start: start,
             end: end,
             length: length,
-            text: highlighted
+            text: text
           }
         },
         error: function(data) {
@@ -70,22 +112,104 @@
         }
       });
     }
-  });
-  function getSelectionHtml() {
-    var html = "";
-    if (typeof window.getSelection != "undefined") {
-      var sel = window.getSelection();
-      if (sel.rangeCount) {
-        var container = document.createElement("div");
-        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-            container.appendChild(sel.getRangeAt(i).cloneContents());
-        }
-        html = container.innerHTML;
-      }
-    } else if (typeof document.selection != "undefined") {
-      if (document.selection.type == "Text") {
-        html = document.selection.createRange().htmlText;
-      }
-    }
-    return html;
   }
+
+  function showHighlightOptions() {
+    coords = getSelectionCoords();
+    $('.highlight-options').css({ top: (coords.y - 40) + 'px', left: coords.x + 'px' }).show();
+  }
+
+  function getSelectionCoords() {
+    var sel = document.selection, range;
+    var x = 0, y = 0;
+    if (sel) {
+        if (sel.type != "Control") {
+            range = sel.createRange();
+            range.collapse(true);
+            x = range.boundingLeft;
+            y = range.boundingTop;
+        }
+    } else if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.rangeCount) {
+            range = sel.getRangeAt(0).cloneRange();
+            if (range.getClientRects) {
+                range.collapse(true);
+                var rect = range.getClientRects()[0];
+                x = rect.left;
+                y = rect.top;
+            }
+        }
+    }
+    return { x: x, y: y };
+  }
+  var markSelection = (function() {
+    var markerTextChar = "\ufeff";
+    var markerTextCharEntity = "&#xfeff;";
+
+    var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
+
+    var selectionEl;
+
+    return function() {
+      var sel, range;
+
+      if (document.selection && document.selection.createRange) {
+          // Clone the TextRange and collapse
+          range = document.selection.createRange().duplicate();
+          range.collapse(false);
+
+          // Create the marker element containing a single invisible character by creating literal HTML and insert it
+          range.pasteHTML('<span id="' + markerId + '" style="position: relative;">' + markerTextCharEntity + '</span>');
+          markerEl = document.getElementById(markerId);
+      } else if (window.getSelection) {
+          sel = window.getSelection();
+
+          if (sel.getRangeAt) {
+              range = sel.getRangeAt(0).cloneRange();
+          } else {
+              // Older WebKit doesn't have getRangeAt
+              range.setStart(sel.anchorNode, sel.anchorOffset);
+              range.setEnd(sel.focusNode, sel.focusOffset);
+
+              // Handle the case when the selection was selected backwards (from the end to the start in the
+              // document)
+              if (range.collapsed !== sel.isCollapsed) {
+                  range.setStart(sel.focusNode, sel.focusOffset);
+                  range.setEnd(sel.anchorNode, sel.anchorOffset);
+              }
+          }
+
+          range.collapse(false);
+
+          // Create the marker element containing a single invisible character using DOM methods and insert it
+          markerEl = document.createElement("span");
+          markerEl.id = markerId;
+          markerEl.appendChild( document.createTextNode(markerTextChar) );
+          range.insertNode(markerEl);
+      }
+
+      if (markerEl) {
+          // Lazily create element to be placed next to the selection
+          if (!selectionEl) {
+              selectionEl = document.getElementById("highlight-options")
+              document.body.appendChild(selectionEl);
+          }
+
+          // Find markerEl position http://www.quirksmode.org/js/findpos.html
+        var obj = markerEl;
+        var left = 0, top = 0;
+        do {
+            left += obj.offsetLeft;
+            top += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+
+          // Move the button into place.
+          // Substitute your jQuery stuff in here
+          selectionEl.style.left = (left - 40) + "px";
+          selectionEl.style.top = (top - 40) + "px";
+
+          markerEl.parentNode.removeChild(markerEl);
+      }
+    };
+  })();
