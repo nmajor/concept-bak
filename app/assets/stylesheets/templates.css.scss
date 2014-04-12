@@ -2,26 +2,55 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$success-green: #4cae4c;
+$error-red: #AE4C4C;
+$soft-grey: #CCCCCC;
+
 .template-name { line-height: 50px; min-height: 50px}
 .template-desc { line-height: 30px; min-height: 30px; }
 .template-image {
-  &:hover {
-    background-image:url('upload.svg');;
-  }
+  color: $soft-grey;
+  &:hover { color: darken($soft-grey, 10%); cursor: pointer; }
 }
 #template_image { display: none; }
-.template-text { min-height: 20px }
-.template-actions { margin-top: 50px; }
+.template-text { min-height: 20px; }
+.template-actions { margin: 50px 0; }
 .template-message { display: none; }
-.template-success { color: #4cae4c; }
+.template-success { color: $success-green; }
+.template-error { color: $error-red; }
+.rtbgroup-name { line-height: 18px; }
+.rtbs { padding-left: 25px; position: relative; }
+.rtbs > li { list-style: none; }
+.rtb-text {
+  line-height: 18px;
+  margin: 6px 0;
+  display: inline-block;
+  width: calc(100% - 30px);
+}
+.new-rtb-text { margin-left: 16px; }
+.add-rtb {
+  color: $success-green;
+  margin-left: 30px;
+  &:hover {
+    cursor: pointer;
+    color: darken( $success-green, 10% ) ;
+  }
+}
+.rm-rtb {
+  color: $error-red;
+  &:hover { cursor: pointer; }
+}
+
 .highlighted {
-  color: rgb(25, 162, 25);
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
+.highlight-like { color: $success-green; }
+.highlight-dislike { color: $error-red; }
+.highlight-question { color: $soft-grey; }
 #highlight-options {
   display: none;
   position: absolute;

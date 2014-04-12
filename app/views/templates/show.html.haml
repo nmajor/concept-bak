@@ -1,6 +1,6 @@
 %article
   .row.col-sm-10.col-sm-offset-1.text-center
-    %h1#template-name.highlightable{ :id => "name:#{@template.name.id}:name" }= @template.name_text
+    %h1#template-name{ :id => "name:#{@template.name.id}:name" }= @template.name_text
   .row.col-sm-10.col-sm-offset-1.text-center
     %h3#template-desc.highlightable{ :id => "desc:#{@template.desc.id}:desc" }= @template.desc_text
   .row.col-sm-6.col-sm-offset-3.text-center
@@ -9,140 +9,117 @@
   .row.col-sm-8.col-sm-offset-2.text-center
     %section.highlightable.template-text{ :id => "body:#{@template.body.id}:text" }= @template.body_text
 
+  .row.col-sm-8.col-sm-offset-2.text-left.rtbgroups
+    - @template.rtbgroups.each do |g|
+      .rtbgroup
+        %h6.highlightable.rtbgroup-name{ id: "rtbgroup:#{g.id}:name" }= g.name
+        %ul#blah.rtbs
+          - g.active_rtbs.each do |r|
+            %li.highlightable.rtb-text{ id: "rtb:#{r.id}:text" }= r.text
+
   .row.col-sm-10.col-sm-offset-1.text-right.template-actions
-    = link_to 'Edit', edit_template_path(@template), class: 'btn btn-primary'
-    = link_to 'Back', templates_path, class: 'btn btn-warning'
+    = link_to 'Edit', edit_template_path(@template), class: 'btn btn-sm btn-primary' if can? :edit, @template
+    = link_to 'Back', templates_path, class: 'btn btn-sm btn-warning'
 
   #highlight-options
-    %span.like like
-    %span.dislike dislike
-    %span.question question
+    %span.rate{ "data-rating" => 'like' } like
+    %span.rate{ "data-rating" => 'dislike' } dislike
+    %span.rate{ "data-rating" => 'question' } question
 
 :javascript
-  var orly1;
-  var orly2;
+  var working_range;
+  var working_element;
   String.prototype.splice = function( idx, rem, s ) {
     return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
   };
   var regex = /(<([^>]+)>)/ig
 
   $('.highlightable').click(function(){
-    submitSelected($(this));
+    event.stopPropagation();
+    working_range = window.getSelection().getRangeAt(0);
+    if (working_range.collapsed) {
+      $('#highlight-options').hide();
+    } else {
+      working_element = $(this);
+      if ( working_range.endOffset > working_range.startOffset) {
+        markSelection();
+        $('#highlight-options').show();
+      }
+    }
   });
 
-  function submitSelected(el) {
-    var selection = window.getSelection().getRangeAt(0);
-    console.log(selection);
-    console.log(selection.startOffset);
-    console.log(selection.endOffset);
+  $('html').click(function() { $('#highlight-options').hide(); });
+  $('span.rate').click(function(){ submitSelected( working_element, $(this).data( "rating" ) ); })
+
+  function submitSelected(el, rating) {
+    console.log(rating);
     var source = el;
+    var clean_content = source.html().replace(regex, "");
     var content = source.html();
-    var start = selection.startOffset;
-    var end = selection.endOffset;
-    var length = end - start;
-    var text = content.substring(start, end);
-    // var content = $(this).html().replace(regex, "");
-    if ( selection.endOffset > selection.startOffset && !regex.test(text) ) {
-      // showHighlightOptions();
-      markSelection();
-      $('#highlight-options').show();
-      return;
-      info = el.prop('id').split(':');
-      type = info[0];
-      id = info[1];
-      attr = info[2];
 
-      var startspace = false;
-      var spaces = [0];
-      for(var i=0; i<content.length; i++) {
-        if (content[i] === " ") spaces.push(i);
-      }
-      spaces.push(content.length);
+    var text = working_range.toString();
+    var length = text.length;
+    var start = clean_content.indexOf(text);
+    var end = start + length
 
-      for(var i=0; i<spaces.length; i++) {
-        if (spaces[i] > start && startspace == false) {
-          start = spaces[i-1] != 0 ? spaces[i-1] + 1 : spaces[i-1];
-          startspace = true;
-        }
-        if (spaces[i] > end) {
-          end = spaces[i];
-          length = end - start;
-          text = content.substring(start, end);
-          break;
-        }
-      }
-
-      console.log(spaces);
-      console.log('type: ' + type );
-      console.log('id: ' + id );
-      console.log('attr: ' + attr );
-      console.log('start: ' + start );
-      console.log('end: ' + end );
-      console.log('length: ' + length );
-      console.log('text: ' + text );
-
-      $.ajax({
-        type: "POST",
-        url: "/highlights.json",
-        dataType: "json",
-        data: {
-          highlight: {
-            highlightable_id: id,
-            highlightable_type: type,
-            highlightable_attr: attr,
-            start: start,
-            end: end,
-            length: length,
-            text: text
-          }
-        },
-        error: function(data) {
-          console.log('error');
-          return console.log(data);
-        },
-        success: function(data) {
-          console.log('success');
-          console.log(data);
-          console.log( content );
-          orly1 = data;
-          orly2 = content;
-          content = content.splice( (data.start + data.length), 0, '</span>' );
-          content = content.splice( data.start, 0, '<span class="highlighted">' );
-          source.html( content );
-        }
-      });
+    while ( clean_content.charAt(start-1) != ' ' && start != 0 ) {
+      start--;
     }
-  }
 
-  function showHighlightOptions() {
-    coords = getSelectionCoords();
-    $('.highlight-options').css({ top: (coords.y - 40) + 'px', left: coords.x + 'px' }).show();
-  }
-
-  function getSelectionCoords() {
-    var sel = document.selection, range;
-    var x = 0, y = 0;
-    if (sel) {
-        if (sel.type != "Control") {
-            range = sel.createRange();
-            range.collapse(true);
-            x = range.boundingLeft;
-            y = range.boundingTop;
-        }
-    } else if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.rangeCount) {
-            range = sel.getRangeAt(0).cloneRange();
-            if (range.getClientRects) {
-                range.collapse(true);
-                var rect = range.getClientRects()[0];
-                x = rect.left;
-                y = rect.top;
-            }
-        }
+    while ( clean_content.charAt(end) != ' ' && end != clean_content.length ) {
+      end++;
     }
-    return { x: x, y: y };
+
+    length = end - start;
+    text = clean_content.substring(start, end);
+
+    info = el.prop('id').split(':');
+    type = info[0];
+    id = info[1];
+    attr = info[2];
+
+    console.log('type: ' + type );
+    console.log('id: ' + id );
+    console.log('attr: ' + attr );
+    console.log('start: ' + start );
+    console.log('end: ' + end );
+    console.log('length: ' + length );
+    console.log('text: ' + text );
+
+    $.ajax({
+      type: "POST",
+      url: "/highlights.json",
+      dataType: "json",
+      data: {
+        highlight: {
+          highlightable_id: id,
+          highlightable_type: type,
+          highlightable_attr: attr,
+          start: start,
+          end: end,
+          length: length,
+          text: text,
+          rating: rating
+        }
+      },
+      error: function(data) {
+        console.log('error');
+        return console.log(data);
+      },
+      success: function(data) {
+        console.log('success');
+        console.log(data);
+        console.log( content );
+
+        start = content.indexOf(text);
+        content = content.splice( (start + length), 0, '</span>' );
+        content = content.splice( start, 0, '<span class="highlighted highlight-'+ data.rating +'">' );
+        source.html( content );
+        $('#highlight-options').hide();
+      }
+    });
   }
+
   var markSelection = (function() {
     var markerTextChar = "\ufeff";
     var markerTextCharEntity = "&#xfeff;";

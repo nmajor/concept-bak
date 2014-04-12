@@ -1,5 +1,7 @@
 class Template < ActiveRecord::Base
   mount_uploader :image, ImageUploader
+  belongs_to :user
+  has_many :rtbgroups
   has_one :name
   has_one :desc
   has_one :body

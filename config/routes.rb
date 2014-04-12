@@ -5,6 +5,7 @@ Concept::Application.routes.draw do
 
   resources :templates, except: [:create]
   resources :highlights, only: [:create, :show]
+  resources :rtbs, only: [:destroy]
 
   devise_for :users
 end

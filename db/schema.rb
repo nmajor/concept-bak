@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328044606) do
+ActiveRecord::Schema.define(version: 20140412072134) do
 
   create_table "bodies", force: true do |t|
     t.text     "text"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20140328044606) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "text"
+    t.string   "rating"
   end
 
   create_table "names", force: true do |t|
@@ -52,10 +53,28 @@ ActiveRecord::Schema.define(version: 20140328044606) do
     t.datetime "updated_at"
   end
 
+  create_table "rtbgroups", force: true do |t|
+    t.string   "name"
+    t.integer  "template_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rtbs", force: true do |t|
+    t.string   "text"
+    t.integer  "rtbgroup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active",      default: true
+  end
+
+  add_index "rtbs", ["active"], name: "index_rtbs_on_active"
+
   create_table "templates", force: true do |t|
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "users", force: true do |t|

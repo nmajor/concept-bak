@@ -15,17 +15,42 @@
   .row.col-sm-10.col-sm-offset-1.text-center
     %h3.template-desc{ contenteditable: true }= @template.desc_text
   .row.col-sm-6.col-sm-offset-3.text-center
-    = image_tag @template.image.blank? ? "upload.svg" : @template.image_url, class: "template-image"
+    =# image_tag @template.image.blank? ? "upload.svg" : @template.image_url, class: "template-image"
+    .template-image
+      - if @template.image.blank?
+        = icon('picture-o', '', class: 'fa-5x')
+      - else
+        = image_tag @template.image_url
     = file_field :template, 'image'
   .row.col-sm-8.col-sm-offset-2.text-center
     %section.template-text{ contenteditable: true }= @template.body_text
 
+  .row.col-sm-8.col-sm-offset-2.text-left.rtbgroups
+    - @template.rtbgroups.each do |g|
+      .rtbgroup
+        %h6.rtbgroup-name{ contenteditable: true, id: "rtbgroup:#{g.id}:name" }= g.name
+        %ul#blah.rtbs
+          - g.active_rtbs.each do |r|
+            %li
+              %span.rm-rtb{ id: "rtb:#{r.id}:delete" }= icon('minus-circle')
+              .rtb-text{ contenteditable: true, id: "rtb:#{r.id}:text" }= r.text
+        .add-rtb
+          = icon('plus-circle')
+          Add Reason
+
   .row.col-sm-10.col-sm-offset-1.text-right.template-actions
     %span.template-message
-    %span.template-save.btn.btn-success Save
-    = link_to 'Show', @template, class: 'btn btn-default'
-    = link_to 'Back', templates_path, class: 'btn btn-warning'
-    = link_to 'Destroy', @template, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
+    %span.template-save.btn.btn-sm.btn-success Save
+    = link_to 'Show', @template, class: 'btn btn-sm btn-default'
+    = link_to 'Back', templates_path, class: 'btn btn-sm btn-warning'
+    = link_to 'Destroy', @template, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-sm btn-danger' if can? :destroy, @template
+
 :javascript
+  var orly;
   template_update_image();
   template_update();
+  // $('.rtb-text').focus(function(){ orly = $(this); $(this).after('<div class="rm-rtb"><i class="fa fa-minus-circle"> Remove Reason</div>') });
+
+  $('.add-rtb').click(function(){
+    $(this).prev().append('<li><div class="rtb-text new-rtb-text" contenteditable="" id="rtb:'+new Date().getTime()+':text">Replace this text</div></li>');
+  });
