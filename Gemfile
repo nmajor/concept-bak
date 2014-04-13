@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rspec-rails'
 end
 group :production do
+  gem 'mysql2'
   gem 'unicorn'
 end
 group :test do
