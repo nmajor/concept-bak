@@ -17,6 +17,7 @@ gem "jquery-fileupload-rails"
 gem 'carrierwave'
 gem 'rmagick', :require => 'RMagick'
 gem 'font-awesome-sass'
+gem 'geocoder'
 group :development do
   gem 'better_errors'
   gem 'meta_request'

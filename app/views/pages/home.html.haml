@@ -1,2 +1,24 @@
-%h1 Pages#home
-%p Find me in app/views/pages/home.html.haml
+%article
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h1#template-name
+      Concept Template
+  .row.col-sm-10.col-sm-offset-1.text-center
+    %h3#template-desc.highlightable
+      Rapidly Validate and Refine Ideas, Products and Copy
+  .row.col-sm-6.col-sm-offset-3.text-center
+    = image_tag 'bright-ideas.jpg'
+  .row.col-sm-8.col-sm-offset-2.text-center
+    %section.highlightable.template-text
+      There is a single tool that can gives you immediate detailed feedback of what your consumers think of your idea, from topline to the tiniest detail. I tells you what to build, whether it really interests anyone, and how best to deliver that good or service. It can rid you of ambiguity, avoid expensive and time intensive , while getting you moving towards something people love. Oh yeah, and free. It is the 1st step to smarter product design.
+
+  .row.col-sm-8.col-sm-offset-2.text-left.rtbgroups
+    .rtbgroup
+      %h6.highlightable.rtbgroup-name Concepts
+      %ul.rtbs
+        %li.highlightable.rtb-text Have been used by entrepreneurs and Fortune 500 companies to earn billions
+        %li.highlightable.rtb-text Work equally well for goods and services, on or offline
+        %li.highlightable.rtb-text Simplifies the questions of what to build, what matters
+        %li.highlightable.rtb-text Gives you a map of exactly how to pitch it for maximum impact
+
+  .row.col-sm-10.col-sm-offset-1.text-right.template-actions
+    = link_to 'Create a Concept Template', new_template_path, class: 'btn btn-success'

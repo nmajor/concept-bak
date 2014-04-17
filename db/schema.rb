@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140412072134) do
+ActiveRecord::Schema.define(version: 20140417042250) do
 
   create_table "bodies", force: true do |t|
     t.text     "text"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20140412072134) do
     t.integer  "template_id"
   end
 
+  create_table "glimpses", force: true do |t|
+    t.integer  "template_id"
+    t.string   "ip_address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "highlights", force: true do |t|
     t.integer  "highlightable_id"
     t.string   "highlightable_type"
@@ -38,7 +48,10 @@ ActiveRecord::Schema.define(version: 20140412072134) do
     t.datetime "updated_at"
     t.text     "text"
     t.string   "rating"
+    t.integer  "glimpse_id"
   end
+
+  add_index "highlights", ["glimpse_id"], name: "index_highlights_on_glimpse_id"
 
   create_table "names", force: true do |t|
     t.string   "text"

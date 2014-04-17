@@ -12,6 +12,8 @@ class TemplatesController < ApplicationController
   # GET /templates/1
   # GET /templates/1.json
   def show
+    @skip_nav = true if !user_signed_in?
+    @glimpse = Glimpse.create(ip_address: request.remote_ip, template: @template)
   end
 
   # GET /templates/new
@@ -79,6 +81,10 @@ class TemplatesController < ApplicationController
       format.html { redirect_to templates_url }
       format.json { head :no_content }
     end
+  end
+
+  def glimpses
+    @glimpses = @template.glimpses
   end
 
   private

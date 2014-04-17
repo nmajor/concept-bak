@@ -9,6 +9,13 @@ $soft-grey: #CCCCCC;
 .delete-link { color: $error-red; }
 .add-link { color: $success-green; }
 
+.template-help {
+  padding: 15px 30px;
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  color: #808080;
+  text-align: center;
+}
 .template-name { line-height: 50px; min-height: 50px}
 .template-desc { line-height: 30px; min-height: 30px; }
 .template-image {
@@ -23,7 +30,7 @@ $soft-grey: #CCCCCC;
 .template-error { color: $error-red; }
 .rtbgroup-name { line-height: 18px; }
 .rtbs { padding-left: 25px; position: relative; }
-.rtbs > li { list-style: none; }
+.list-styless { list-style: none; }
 .rtb-text {
   line-height: 18px;
   margin: 6px 0;

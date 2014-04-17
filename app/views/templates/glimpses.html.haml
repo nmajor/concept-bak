@@ -1,0 +1,8 @@
+%h3 Glimpses
+
+%table
+  - @glimpses.each do |glimpse|
+    %tr
+      %td
+        = link_to glimpse.description, glimpse_path(glimpse)
+      %td

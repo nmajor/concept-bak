@@ -19,6 +19,6 @@ class HighlightsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def highlight_params
-      params.require(:highlight).permit( :highlightable_id, :highlightable_type, :highlightable_attr, :start, :end, :length, :text, :rating )
+      params.require(:highlight).permit( :highlightable_id, :highlightable_type, :highlightable_attr, :start, :end, :length, :text, :rating, :glimpse_id )
     end
 end

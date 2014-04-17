@@ -75,10 +75,10 @@ Concept::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.sendgrid.net",
     port: 587,
-    domain: ENV["DOMAIN_NAME"],
+    domain: 'nmajor.com',
     authentication: "plain",
-    user_name: ENV["SENDGRID_USERNAME"],
-    password: ENV["SENDGRID_PASSWORD"]
+    user_name: 'nmajor',
+    password: 'SuperHappy123'
   }
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'example.com' }

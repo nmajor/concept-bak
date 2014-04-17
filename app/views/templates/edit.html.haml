@@ -9,11 +9,17 @@
 = hidden_field_tag 'template_id', @template.id
 = hidden_field_tag 'template_path', template_path(@template) + '.json'
 = hidden_field_tag 'template_method', @template.id.blank? ? 'POST' : "PUT"
+
 %article
+  %section.row.col-sm-12.template-help
+    Click on any text to change it.
+
   .row.col-sm-10.col-sm-offset-1.text-center
     %h1.template-name{ contenteditable: true }= @template.name_text
+
   .row.col-sm-10.col-sm-offset-1.text-center
     %h3.template-desc{ contenteditable: true }= @template.desc_text
+
   .row.col-sm-6.col-sm-offset-3.text-center
     =# image_tag @template.image.blank? ? "upload.svg" : @template.image_url, class: "template-image"
     .template-image
@@ -22,6 +28,7 @@
       - else
         = image_tag @template.image_url
     = file_field :template, 'image'
+
   .row.col-sm-8.col-sm-offset-2.text-center
     %section.template-text{ contenteditable: true }= @template.body_text
 
@@ -31,7 +38,7 @@
         %h6.rtbgroup-name{ contenteditable: true, id: "rtbgroup:#{g.id}:name" }= g.name
         %ul#blah.rtbs
           - g.active_rtbs.each do |r|
-            %li
+            %li.list-styless
               %span.rm-rtb.delete-link{ id: "rtb:#{r.id}:delete" }= icon('minus-circle')
               .rtb-text{ contenteditable: true, id: "rtb:#{r.id}:text" }= r.text
         .add-rtb.add-link
@@ -42,7 +49,6 @@
     %span.template-message
     %span.template-save.btn.btn-sm.btn-success Save
     = link_to 'Show', @template, class: 'btn btn-sm btn-default'
-    = link_to 'Back', templates_path, class: 'btn btn-sm btn-warning'
 
 :javascript
   var orly;

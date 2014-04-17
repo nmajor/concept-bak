@@ -6,7 +6,7 @@ class Ability
       can :index, User
       can [:show, :edit, :update, :destroy], User, :id => user.id
 
-      can [:index, :edit, :update, :destroy], Template, :user_id => user.id
+      can [:edit, :update, :destroy, :glimpses], Template, :user_id => user.id
       can :new, Template
     end
     can :show, Template
