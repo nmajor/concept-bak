@@ -2,9 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// TODO: move these variables and classes out to their own file
 $success-green: #4cae4c;
 $error-red: #AE4C4C;
 $soft-grey: #CCCCCC;
+.delete-link { color: $error-red; }
+.add-link { color: $success-green; }
 
 .template-name { line-height: 50px; min-height: 50px}
 .template-desc { line-height: 30px; min-height: 30px; }
@@ -29,7 +32,6 @@ $soft-grey: #CCCCCC;
 }
 .new-rtb-text { margin-left: 16px; }
 .add-rtb {
-  color: $success-green;
   margin-left: 24px;
   &:hover {
     cursor: pointer;
@@ -37,7 +39,6 @@ $soft-grey: #CCCCCC;
   }
 }
 .rm-rtb {
-  color: $error-red;
   &:hover { cursor: pointer; }
 }
 

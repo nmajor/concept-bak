@@ -1,0 +1,13 @@
+%h3 Templates
+
+%table
+  - @templates.each do |template|
+    %tr
+      %td
+        = link_to template.name_text, template_path(template)
+        = link_to icon('edit'), edit_template_path(template)
+        = link_to icon('minus-circle'), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-sm btn-danger'
+      %td
+
+.add-link
+  = link_to "#{icon('plus-circle')} New Template".html_safe, new_template_path

@@ -80,9 +80,9 @@ root.template_update = ->
           new_rtbgroups += '<h6 class="rtbgroup-name" contenteditable="" id="rtbgroup:'+rtbgroup.id+':name">'+rtbgroup.name+'</h6>'
           new_rtbgroups += '<ul class="rtbs">'
           for rtb in rtbgroup.rtbs
-            new_rtbgroups += '<li><span class="rm-rtb" id="rtb:'+rtb.id+':delete"><i class="fa fa-minus-circle"></i> </span><div class="rtb-text" contenteditable="" id="rtb:'+rtb.id+':text"> '+rtb.text+'</div></li>'
+            new_rtbgroups += '<li><span class="rm-rtb delete-link" id="rtb:'+rtb.id+':delete"><i class="fa fa-minus-circle"></i> </span><div class="rtb-text" contenteditable="" id="rtb:'+rtb.id+':text"> '+rtb.text+'</div></li>'
           new_rtbgroups += '</ul>'
-          new_rtbgroups += '<div class="add-rtb"><i class="fa fa-plus-circle"></i> Add Reason</div>'
+          new_rtbgroups += '<div class="add-rtb add-link"><i class="fa fa-plus-circle"></i> Add Reason</div>'
           new_rtbgroups += '</div>'
         $('.rtbgroups').html(new_rtbgroups)
     return

@@ -1,0 +1,10 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// TODO: move these variables and classes out to their own file
+$success-green: #4cae4c;
+$error-red: #AE4C4C;
+$soft-grey: #CCCCCC;
+.delete-link { color: $error-red; }
+.add-link { color: $success-green; }
