@@ -1,2 +1,13 @@
-%h1 Glimpses#show
-%p Find me in app/views/glimpses/show.html.haml
+%section.row2.template-help.highlighted
+  = @glimpse.description
+
+%section.glimpse-highlights
+  - @glimpse.highlights.each do |h|
+    .glimpse-highlight
+      = h.highlightable_type
+      %span{:class => 'highlight-'+h.rating}
+        = h.text
+
+
+.template-content
+  = render "shared/template"

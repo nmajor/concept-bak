@@ -10,7 +10,7 @@ $soft-grey: #CCCCCC;
 .add-link { color: $success-green; }
 
 .template-help {
-  padding: 15px 30px;
+  padding: 15px 0;
   background-color: #f8f8f8;
   border: 1px solid #e7e7e7;
   color: #808080;
@@ -29,7 +29,11 @@ $soft-grey: #CCCCCC;
 .template-success { color: $success-green; }
 .template-error { color: $error-red; }
 .rtbgroup-name { line-height: 18px; }
-.rtbs { padding-left: 25px; position: relative; }
+.rtbs {
+  list-style-type: none;
+  padding-left: 25px;
+  position: relative;
+}
 .list-styless { list-style: none; }
 .rtb-text {
   line-height: 18px;

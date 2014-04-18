@@ -1,0 +1,26 @@
+.row.col-sm-10.col-sm-offset-1.text-center
+  %h1.highlightable{ :id => "name:#{@template.name.id}:name" }= @template.name_text
+
+.row.col-sm-10.col-sm-offset-1.text-center
+  %h3#template-desc.highlightable{ :id => "desc:#{@template.desc.id}:desc" }= @template.desc_text
+
+.row.col-sm-6.col-sm-offset-3.text-center
+  = image_tag @template.image_url if !@template.image.blank?
+
+.row.col-sm-8.col-sm-offset-2.text-center
+  %section.highlightable.template-text{ :id => "body:#{@template.body.id}:text" }= @template.body_text.html_safe
+
+.row.col-sm-8.col-sm-offset-2.text-left.rtbgroups
+  - @template.rtbgroups.each do |g|
+    .rtbgroup
+      %h6.highlightable.rtbgroup-name{ id: "rtbgroup:#{g.id}:name" }= g.name
+      %ul#blah.rtbs
+        - g.active_rtbs.each do |r|
+          %li.highlightable.rtb-text{ id: "rtb:#{r.id}:text" }= r.text
+
+.row.col-sm-10.col-sm-offset-1.text-right.template-actions
+
+#highlight-options
+  %span.rate{ "data-rating" => 'like' } like
+  %span.rate{ "data-rating" => 'dislike' } dislike
+  %span.rate{ "data-rating" => 'question' } confusing

@@ -9,6 +9,18 @@ class Glimpse < ActiveRecord::Base
   end
   after_validation :geocode
 
+  def name_highlights
+    highlights.where(highlightable_type: 'Name').order(end: :desc)
+  end
+
+  def desc_highlights
+    highlights.where(highlightable_type: 'Desc').order(end: :desc)
+  end
+
+  def body_highlights
+    highlights.where(highlightable_type: 'Body').order(end: :desc)
+  end
+
   def description
     "#{location} - #{created_at.strftime('%b %e, %Y %H:%M')}"
   end
