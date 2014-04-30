@@ -1,4 +1,5 @@
 class Name < ActiveRecord::Base
+  include Highlightation
+
   belongs_to :template
-  has_many :highlights, as: :highlightable
 end

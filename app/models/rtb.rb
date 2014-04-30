@@ -1,4 +1,5 @@
 class Rtb < ActiveRecord::Base
+  include Highlightation
+
   belongs_to :rtbgroup
-  has_many :highlights, as: :highlightable
 end

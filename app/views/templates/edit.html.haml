@@ -35,7 +35,7 @@
   .row.col-sm-8.col-sm-offset-2.text-left.rtbgroups
     - @template.rtbgroups.each do |g|
       .rtbgroup
-        %h6.rtbgroup-name{ contenteditable: true, id: "rtbgroup:#{g.id}:name" }= g.name
+        %h6.rtbgroup-text{ contenteditable: true, id: "rtbgroup:#{g.id}:text" }= g.text
         %ul#blah.rtbs
           - g.active_rtbs.each do |r|
             %li.list-styless
@@ -46,7 +46,7 @@
           Add Reason
 
   .row.col-sm-10.col-sm-offset-1.text-right.template-actions
-    %span.template-message
+    %span#template-message
     %span.template-save.btn.btn-sm.btn-success Save
     = link_to 'Show', @template, class: 'btn btn-sm btn-default'
 

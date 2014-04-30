@@ -20,10 +20,7 @@ root.template_update_image = ->
       console.log data
       console.log data.result.image_url
       $(".template-image").html('<image src="'+data.result.image_url+'" alt="'+data.result.image+'">')
-      $('.template-message').addClass('template-success').html('Image Saved').show()
-      setTimeout ( ->
-        $('.template-message').hide()
-      ),3000
+      message "success", "Image Saved"
       return
   return
 
@@ -52,7 +49,7 @@ root.template_update = ->
 
     data.rtbgroups = []
     $('.rtbgroups > div').each ->
-      group_name = $(this).children('h6').html();
+      group_text = $(this).children('h6').html();
       group_info = $(this).children('h6').prop('id').split(':');
 
       rtbs = []
@@ -62,7 +59,7 @@ root.template_update = ->
         rtbs.push( {"id":rtb_info[1],"text":rtb_text} );
         return
 
-      data.rtbgroups.push( {"id":group_info[1],"name":group_name,"rtbs":rtbs} );
+      data.rtbgroups.push( {"id":group_info[1],"text":group_text,"rtbs":rtbs} );
       return
 
     $.ajax
@@ -77,7 +74,7 @@ root.template_update = ->
         new_rtbgroups = ''
         for rtbgroup in data.rtbgroups
           new_rtbgroups += '<div class="rtbgroup">'
-          new_rtbgroups += '<h6 class="rtbgroup-name" contenteditable="" id="rtbgroup:'+rtbgroup.id+':name">'+rtbgroup.name+'</h6>'
+          new_rtbgroups += '<h6 class="rtbgroup-text" contenteditable="" id="rtbgroup:'+rtbgroup.id+':text">'+rtbgroup.text+'</h6>'
           new_rtbgroups += '<ul class="rtbs">'
           for rtb in rtbgroup.rtbs
             new_rtbgroups += '<li><span class="rm-rtb delete-link" id="rtb:'+rtb.id+':delete"><i class="fa fa-minus-circle"></i> </span><div class="rtb-text" contenteditable="" id="rtb:'+rtb.id+':text"> '+rtb.text+'</div></li>'
@@ -88,9 +85,9 @@ root.template_update = ->
     return
 
   message = (cl, mes) ->
-      $('.template-message').removeClass().addClass('template-'+cl).html(mes).show()
+      $('#template-message').removeClass().addClass('template-'+cl).html(mes).show()
       setTimeout ( ->
-        $('.template-message').hide()
+        $('#template-message').hide()
       ),3000
     return
 

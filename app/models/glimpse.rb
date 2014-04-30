@@ -21,6 +21,14 @@ class Glimpse < ActiveRecord::Base
     highlights.where(highlightable_type: 'Body').order(end: :desc)
   end
 
+  def rtbgroup_highlights rtbgroup_id
+    highlights.where(highlightable_type: 'Rtbgroup').where(highlightable_id: rtbgroup_id).order(end: :desc)
+  end
+
+  def rtb_highlights rtb_id
+    highlights.where(highlightable_type: 'Rtb').where(highlightable_id: rtb_id).order(end: :desc)
+  end
+
   def description
     "#{location} - #{created_at.strftime('%b %e, %Y %H:%M')}"
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140417042250) do
+ActiveRecord::Schema.define(version: 20140420203315) do
 
   create_table "bodies", force: true do |t|
     t.text     "text"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20140417042250) do
   end
 
   create_table "rtbgroups", force: true do |t|
-    t.string   "name"
+    t.string   "text"
     t.integer  "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"

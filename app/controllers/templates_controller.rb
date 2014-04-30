@@ -22,7 +22,7 @@ class TemplatesController < ApplicationController
     @template.name = Name.create( :text => "Concept Template" )
     @template.desc = Desc.create( :text => "<8 Word Clear, Catchy, Description of Product" )
     @template.body = Body.create( :text => "Describe the product, focusing on the benefits and ultimate outcomes that the product provides. Selling an ab workout? Sell the 6 pack. Self-help seminar? Sell the success story they will become. You have 1-2 short paragraphs and around ~125 words (~6 lines) before you lose attention. Minimize the setup, you don’t setup, and use declarative words that don’t need qualifiers or superlatives. Don’t repeat yourself, and try doing a few different concepts, with original perspectives and evidence." )
-    rtbgroup = Rtbgroup.create( :name => "Here's How" )
+    rtbgroup = Rtbgroup.create( :text => "Here's How" )
     rtb1 = Rtb.create( :text => 'Reason #1. Feature, data, or proof + benefit as a result' )
     rtb2 = Rtb.create( :text => 'Reason #2. Feature, data, or proof + benefit as a result' )
     rtb3 = Rtb.create( :text => 'Reason #3. Feature, data, or proof + benefit as a result' )
@@ -49,7 +49,7 @@ class TemplatesController < ApplicationController
       params[:rtbgroups].collect{|k,v| v }.each do |g|
         group = Rtbgroup.find_by_id g["id"]
         group = Rtbgroup.new if group.nil?
-        group.name = g["name"]
+        group.text = g["text"]
         group.template = @template
         saved = false unless group.save
         g["rtbs"].collect{|k,v| v }.each do |r|
