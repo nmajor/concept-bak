@@ -11,4 +11,9 @@ module Highlightation
     end
   end
 
+  private
+  def strip_tags text
+    text.gsub!(/(<([^>]+)>)/, '')
+  end
+
 end

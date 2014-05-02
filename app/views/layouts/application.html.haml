@@ -8,8 +8,9 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    %header
-      = render 'layouts/navigation'
-    .container
-      = render 'layouts/messages'
-      = yield
+    = render 'layouts/navigation'
+    = link_to "&#9776;".html_safe, "#menu", class: "menu-link"
+    .container.wrap.push
+      .row.col-sm-10.col-sm-offset-1
+        = render 'layouts/messages'
+        = yield

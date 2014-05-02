@@ -7,7 +7,7 @@
         = link_to template.name_text, template_path(template)
         = link_to icon('eye'), glimpses_template_path(template)
         = link_to icon('edit'), edit_template_path(template)
-        = link_to icon('minus-circle'), :method => :delete, :data => { :confirm => 'Are you sure?' }
+        = link_to icon('trash-o'), template_path(template), :method => :delete, :data => { :confirm => 'Are you sure?' }
       %td
 
 .add-link

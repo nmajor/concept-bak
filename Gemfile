@@ -18,6 +18,7 @@ gem 'carrierwave'
 gem 'rmagick', :require => 'RMagick'
 gem 'font-awesome-sass'
 gem 'geocoder'
+gem 'sanitize'
 group :development do
   gem 'better_errors'
   gem 'meta_request'

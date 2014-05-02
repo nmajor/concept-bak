@@ -1,13 +1,4 @@
 - unless @skip_nav
-  %nav.navbar.navbar-default.navbar-top
-    .container
-      .navbar-header
-        %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
-          %span.sr-only Toggle navigation
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        = link_to 'Home', root_path, class: 'navbar-brand'
-      .collapse.navbar-collapse
-        %ul.nav.navbar-nav
-          = render 'layouts/navigation_links'
+  %nav#menu.panel{ role: 'navigation' }
+    %ul
+      = render 'layouts/navigation_links'

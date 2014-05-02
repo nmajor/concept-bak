@@ -79,3 +79,8 @@ section {
   @extend .btn-primary;
   @extend .btn-xs;
 }
+.panel { border-radius: 0px; }
+.push { margin-top: 60px; }
+@media (min-width: $screen-sm) {
+  .push { margin-top: 0; }
+}

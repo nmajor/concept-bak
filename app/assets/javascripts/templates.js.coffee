@@ -92,3 +92,7 @@ root.template_update = ->
     return
 
   return
+
+$(document).ready ->
+  $(".menu-link").bigSlide()
+  return
