@@ -106,7 +106,7 @@ nav { border-right: 1px solid #303030; }
   left: 20px;
   font-size: 30px;
   z-index: 999;
-  padding: 0 7px;
+  padding: 0 7px 2px 7px;
   background: #838383;
   color: #FFF;
   &:hover {
@@ -114,8 +114,9 @@ nav { border-right: 1px solid #303030; }
     background: #696969;
     color: #FFF;
   }
+  line-height: 1.2;
 }
-#menu { background: #494949; }
+#menu { background: #303030; }
 #menu ul {
   margin-top: 80px; padding: 0;
   a { color: #C7C7C7; }
@@ -125,7 +126,7 @@ nav { border-right: 1px solid #303030; }
   width: 100%;
   border-top: 1px solid #696969;
   list-style-type: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
   font-size: 1.2em;
   &:hover { background: #444444; }
   .last { border-bottom: 1px solid #696969; }
