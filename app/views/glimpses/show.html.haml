@@ -1,13 +1,5 @@
-%section.row2.template-help.highlighted
+%section.row.template-help.highlighted
   = @glimpse.description
 
 .template-content
   = render "shared/template"
-
-
-%section.glimpse-highlights
-  - @glimpse.highlights.each do |h|
-    .glimpse-highlight
-      = h.highlightable_type
-      %span{:class => 'highlight-'+h.rating}
-        = h.text
